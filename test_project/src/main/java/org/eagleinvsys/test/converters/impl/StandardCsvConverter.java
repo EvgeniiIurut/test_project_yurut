@@ -1,5 +1,6 @@
 package org.eagleinvsys.test.converters.impl;
 
+import org.eagleinvsys.test.converters.ConvertibleCollection;
 import org.eagleinvsys.test.converters.StandardConverter;
 
 import java.io.OutputStream;
@@ -22,7 +23,8 @@ public class StandardCsvConverter implements StandardConverter {
      */
     @Override
     public void convert(List<Map<String, String>> collectionToConvert, OutputStream outputStream) {
-        // TODO: implement by using csvConverter
+        ConvertibleCollection convertibleCollection = new ConvertibleCollectionImpl(collectionToConvert);
+        csvConverter.convert(convertibleCollection, outputStream);
     }
 
 }

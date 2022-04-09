@@ -6,14 +6,11 @@ import org.eagleinvsys.test.converters.ConvertibleMessage;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
 public class CsvConverter implements Converter {
-
     /**
      * Converts given {@link ConvertibleCollection} to CSV and outputs result as a text to the provided {@link OutputStream}
      *
@@ -33,5 +30,4 @@ public class CsvConverter implements Converter {
             throw new RuntimeException(e);
         }
     }
-
 }
