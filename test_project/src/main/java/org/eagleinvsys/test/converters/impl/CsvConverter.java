@@ -6,9 +6,10 @@ import org.eagleinvsys.test.converters.ConvertibleMessage;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.joining;
 
 public class CsvConverter implements Converter {
     /**
@@ -23,7 +24,14 @@ public class CsvConverter implements Converter {
             outputStream.write(String.join(",", collectionToConvert.getHeaders()).getBytes(UTF_8));
             for (ConvertibleMessage record : collectionToConvert.getRecords()) {
                 outputStream.write("\n".getBytes(UTF_8));
-                final String recordAsString = collectionToConvert.getHeaders().stream().map(elementId -> record.getElement(elementId) != null ? record.getElement(elementId) : "").collect(joining(","));
+                StringJoiner joiner = new StringJoiner(",");
+                collectionToConvert
+                        .getHeaders()
+                        .stream()
+                        .map(record::getElement)
+                        .map(s -> Objects.requireNonNullElse(s, ""))
+                        .forEach(joiner::add);
+                final String recordAsString = joiner.toString();
                 outputStream.write(recordAsString.getBytes(UTF_8));
             }
         } catch (IOException e) {
