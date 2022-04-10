@@ -1,28 +1,27 @@
 package org.eagleinvsys.test.converters;
 
-import org.eagleinvsys.test.converters.impl.ConvertibleCollectionImpl;
 import org.eagleinvsys.test.converters.impl.HashMapConvertibleMessage;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashMapConvertibleMessageTest {
-
     @Test
-    void getElement() {
+    void should_return_null_when_value_does_not_exist() {
         // given
-        Map<String, String> mapToCheck = Map.of("Name", "Bob",
-                "Last name", "Dylan",
-                "Age", "56");
+        Map<String, String> mapToCheck = new HashMap<>();
+        mapToCheck.put("Name", "Bob");
+        mapToCheck.put("Last name", "Dylan");
+        mapToCheck.put("Age", null);
         final ConvertibleMessage hashMapConvertibleMessage = new HashMapConvertibleMessage(mapToCheck);
         // when
-        String expectedResult = mapToCheck.get("Age");
         String ageOfElement = hashMapConvertibleMessage.getElement("Age");
         // then
-        assertEquals(ageOfElement, expectedResult);
+        assertNull(ageOfElement);
+        assertEquals(hashMapConvertibleMessage.getElement("Name"), "Bob");
+        assertEquals(hashMapConvertibleMessage.getElement("Last name"), "Dylan");
     }
 }

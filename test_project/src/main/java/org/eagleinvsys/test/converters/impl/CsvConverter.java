@@ -23,7 +23,7 @@ public class CsvConverter implements Converter {
             outputStream.write(String.join(",", collectionToConvert.getHeaders()).getBytes(UTF_8));
             for (ConvertibleMessage record : collectionToConvert.getRecords()) {
                 outputStream.write("\n".getBytes(UTF_8));
-                final String recordAsString = collectionToConvert.getHeaders().stream().map(record::getElement).collect(joining(","));
+                final String recordAsString = collectionToConvert.getHeaders().stream().map(elementId -> record.getElement(elementId) != null ? record.getElement(elementId) : "").collect(joining(","));
                 outputStream.write(recordAsString.getBytes(UTF_8));
             }
         } catch (IOException e) {

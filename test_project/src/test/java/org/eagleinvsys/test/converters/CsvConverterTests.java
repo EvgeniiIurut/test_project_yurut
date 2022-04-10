@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,18 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 class CsvConverterTests {
-    // TODO: implement JUnit 5 tests for CsvConverter
-
     @Test
     void should_convert_collection_to_csv() {
         // given
         final var expectedResult = "Name,Last name,Age\n" +
-                "Bob,Dylan,56";
+                "Bob,Dylan,";
         final var headers = List.of("Name", "Last name", "Age");
-        final HashMapConvertibleMessage message = new HashMapConvertibleMessage(Map.of(
-                "Name", "Bob",
-                "Last name", "Dylan",
-                "Age", "56"));
+        Map<String, String> mapToCheck = new HashMap<>();
+        mapToCheck.put("Name", "Bob");
+        mapToCheck.put("Last name", "Dylan");
+        mapToCheck.put("Age", null);
+        final HashMapConvertibleMessage message = new HashMapConvertibleMessage(mapToCheck);
+
         final ConvertibleCollection collection = Mockito.mock(ConvertibleCollection.class);
         when(collection.getRecords()).thenReturn(List.of(message));
         when(collection.getHeaders()).thenReturn(headers);
